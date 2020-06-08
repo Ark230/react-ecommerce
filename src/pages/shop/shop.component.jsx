@@ -7,7 +7,6 @@ class ShopPage extends React.Component{
         super(props);
         this.state = {
             collections: SHOP_DATA
-               
     }
   }
 
