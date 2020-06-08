@@ -6,10 +6,12 @@ import {Link} from 'react-router-dom';
 
 import {auth} from '../../firebase/firebase.util';
 
+import {connect} from 'react-redux';
+
 const Header = ({currentUser}) => (
     <div className="header">
         <Link to="/" className="logo-container">
-            <Logo className="logo"></Logo>
+            <Logo className="logo"/>
         </Link>
         <div className="options">
         <Link to="/shop" className="option">SHOP</Link>
@@ -23,5 +25,10 @@ const Header = ({currentUser}) => (
         </div>
     </div>
 );
+
+
+const mapStateToProps = (state) => ({
+    currentUser: state.user.currentUser
+});
  
-export default Header;
+export default connect(mapStateToProps)(Header);

@@ -27,6 +27,7 @@ const config = {
     }
 
     const userReference = firestore.doc(`users/${userAuth.uid}`);
+    // console.log("some user ref", userReference);
     const snapShot = await userReference.get();
 
     if(!snapShot.exists){
@@ -40,11 +41,12 @@ const config = {
           createdAt,
           ...additionalData
         });
+        console.log("user ref", userReference);
       }catch(e){
         console.log("error creating user", e);
       }
     }
-      console.log('seems to be created');
+      console.log('seems to be created', userAuth);
       return userReference;
   }
 
