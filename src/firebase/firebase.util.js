@@ -41,12 +41,11 @@ const config = {
           createdAt,
           ...additionalData
         });
-        console.log("user ref", userReference);
       }catch(e){
         console.log("error creating user", e);
       }
     }
-      console.log('seems to be created', userAuth);
+  
       return userReference;
   }
 
