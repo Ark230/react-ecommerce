@@ -13,12 +13,12 @@ export const selectShop = state => state.shop;
 
 export const selectCollections = createSelector([selectShop], shop => shop.collections);
 
-export const selectCollectionsForPreview = createSelector([selectCollections], collections => Object.keys(collections).map(key => collections[key]));
+export const selectCollectionsForPreview = createSelector([selectCollections], collections => collections ? Object.keys(collections).map(key => collections[key]) : []);
 
 /*
     a memoized function was created with lodash 
     due to selectCollection needs another param
     before the createSelector method appears.
 */
-export const selectCollection = memoize(collectionUrlParam => createSelector([selectCollections], collection => collection[collectionUrlParam]));
+export const selectCollection = memoize(collectionUrlParam => createSelector([selectCollections], collection => collection ? collection[collectionUrlParam] : null));
 
