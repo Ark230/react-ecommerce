@@ -20,5 +20,8 @@ export const selectCollectionsForPreview = createSelector([selectCollections], c
     due to selectCollection needs another param
     before the createSelector method appears.
 */
-export const selectCollection = memoize(collectionUrlParam => createSelector([selectCollections], collection => collection ? collection[collectionUrlParam] : null));
+export const selectCollection = memoize(collectionUrlParam => createSelector([selectCollections], collection => collection ? collection[collectionUrlParam] : []));
 
+export const selectIsCollectionFetching = createSelector([selectShop], shop => shop.isFetching);
+
+export const selectIsCollectionLoaded = createSelector([selectShop], shop => !!shop.collections);

@@ -22,19 +22,16 @@ const config = {
 
   export const createUserProfileDocument = async(userAuth, additionalData) => {
     if(!userAuth){
-      console.log("rejected");
       return;
     }
 
     const userReference = firestore.doc(`users/${userAuth.uid}`);
-    // console.log("some user ref", userReference);
     const snapShot = await userReference.get();
 
     if(!snapShot.exists){
       const {displayName, email} = userAuth;
       const createdAt = new Date();
       try{
-        
         await userReference.set({
           displayName,
           email,
@@ -49,10 +46,21 @@ const config = {
       return userReference;
   }
 
-  const provider = new firebase.auth.GoogleAuthProvider();
-  provider.setCustomParameters({ prompt:'select_account' });
-  export const signInWithGoogle = () => auth.signInWithPopup(provider);
+  export const googleProvider = new firebase.auth.GoogleAuthProvider();
+  googleProvider.setCustomParameters({ prompt:'select_account' });
+  export const signInWithGoogle = () => auth.signInWithPopup(googleProvider);
  
+
+  export const getCurrentUser = () => {
+    return new Promise((resolve, reject) => {
+      const unsubscribe = auth.onAuthStateChanged(userAuth => {
+        unsubscribe();
+        resolve(userAuth);
+      }, reject)
+    })
+  }
+
+
 
   //method for creating any new collections and documents
   export const addCollectionsAndDocuments = async (collectionKey, objectsToAdd) => {

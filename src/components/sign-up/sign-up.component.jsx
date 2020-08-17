@@ -2,42 +2,34 @@ import React from 'react';
 import './sign-up.styles.scss';
 import FormInput from '../form-input/form-input.component';
 import CustomButton from '../custom-button/custom-button.component';
-import {auth, createUserProfileDocument } from '../../firebase/firebase.util';
+import { connect } from 'react-redux';
+import { signUpStart } from '../../redux/user/user.actions';
 
 class SignUp extends React.Component{
     constructor(props){
         super(props);
 
         this.state = {
-            displayName:'',
-            email:'',
-            password:'',
-            confirmPassword:''
+            displayName:'testing',
+            email:'testing@gmail.com',
+            password:'testin',
+            confirmPassword:'testin'
         }
     }
 
     handleSubmit = async (event) => {
+        const {signUp} = this.props;
         event.preventDefault();
-        const {displayName, email, password, confirmPassword} = this.state;
-        if(password !== confirmPassword){
-            alert("passwords don't match");
-            return;
-        }
+        const user = this.state;
 
-        try{
-            //returns user auth object  
-            const {user} = await auth.createUserWithEmailAndPassword(email, password);
-            await createUserProfileDocument(user, {displayName});
-            this.setState({
-                displayName:'',
-                email:'',
-                password:'',
-                confirmPassword:''
-            });
+        signUp(user);
 
-        }catch(e){
-            console.error(e);
-        }
+        this.setState({
+        displayName:'',
+        email:'',
+        password:'',
+        confirmPassword:''
+         });
     }
 
     handleChange = async (event) => {
@@ -57,7 +49,7 @@ class SignUp extends React.Component{
                        <FormInput type="email" name="email" value={email} onChange={this.handleChange} label="Email" required></FormInput>
                        <FormInput type="password" name="password" value={password} onChange={this.handleChange} label="Password" required></FormInput>
                        <FormInput type="password" name="confirmPassword" value={confirmPassword} onChange={this.handleChange} label="Confirm Password" required></FormInput>
-                    <CustomButton type="submit">SIGN IN</CustomButton>
+                    <CustomButton type="submit">SIGN UP</CustomButton>
                     </form>
                 </div>
 
@@ -66,4 +58,8 @@ class SignUp extends React.Component{
     }
 }
 
-export default SignUp;
+const mapDispatchToProps = dispatch => ({
+    signUp: user => dispatch(signUpStart(user))
+
+})
+export default connect(null, mapDispatchToProps)(SignUp);
