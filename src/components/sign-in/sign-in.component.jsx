@@ -6,42 +6,32 @@ import CustomButton from '../custom-button/custom-button.component';
 
 import { googleSignInStart, emailSignInStart } from '../../redux/user/user.actions';
 import { connect } from 'react-redux';
+import { useState } from 'react';
 
-class SignIn extends React.Component{
-    constructor(props){
-        super(props);
-        this.state = {
-            email:'',
-            password:''
-        }
-    }
+const SignIn = ({emailSignInStart, googleSignInStart}) => {
+    const [userCredentials, setCredentials] = useState({email:'', password:''})
 
-    handleSubmit = async (event) =>{
+    const {email, password} = userCredentials;
+   
+   
+    const handleSubmit = async (event) =>{
      event.preventDefault();
-     const {email, password} = this.state;
-     const {emailSignInStart} = this.props;
-
      emailSignInStart(email, password);
-     
     }
 
-    handleChange = event => {
-
+  const handleChange = event => {
        const {value, name} = event.target;
-        this.setState( {[name]:value });
+       setCredentials({...userCredentials, [name]:value });
+    } 
      
-    }
-
-    render(){
-     const {googleSignInStart} = this.props;
         return (
             <div className="sign-in">
                 <h2>I already have an account</h2>
                 <span>Sign in with your email and password</span>
-                <form onSubmit={this.handleSubmit}>
-                    <FormInput type="email" name="email" value={this.state.email} handleChange={this.handleChange} label="email" required/>
+                <form onSubmit={handleSubmit}>
+                    <FormInput type="email" name="email" value={email} handleChange={handleChange} label="email" required/>
                     
-                    <FormInput type="password" name="password" value={this.state.password} handleChange={this.handleChange} label="password" required/>
+                    <FormInput type="password" name="password" value={password} handleChange={handleChange} label="password" required/>
                     
                     <div className="buttons">
                         <CustomButton type="submit">SIGN IN</CustomButton>
@@ -51,7 +41,6 @@ class SignIn extends React.Component{
                 </form>
             </div>
         )
-    }
 
 }
 
