@@ -34,7 +34,7 @@ const SignUp = ({signUp}) => {
 
    const handleChange = async (event) => {
         const {name, value} = event.target;
-        this.setSignUpCredentials({...signUpCredentials, [name]: value});
+        setSignUpCredentials({...signUpCredentials, [name]: value});
     }
 
         
